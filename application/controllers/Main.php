@@ -13,12 +13,13 @@ class Main extends CI_Controller
 
 	public function index()
 	{
-		$data['messages'] = $this->messages_model->get_messages();
+		$data['messages'] = $this->messages_model->get_all();
 		$this->load->view('messages', $data);
 	}
 
 	public function addMessage()
 	{
-		echo "Not Yet";
+		$all = $this->input->post();
+        $this->messages_model->add($all);
 	}
 }

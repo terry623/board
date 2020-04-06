@@ -31,22 +31,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
         .message-input {
             width: 90%;
         }
+
+        .message-card {
+            margin: 20px 0;
+        }
+
+        .message-card-body {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="title">留言板</div>
-        <div class="message">
-            <input type="text" class="form-control message-input" placeholder="想留言的內容">
-            <button type="button" id="sendButton" class="btn btn-info" onclick="window.location.href='<?= base_url('Main/addMessage'); ?>'">送出</button>
-        </div>
+        <form class="message" action="<?= base_url('Main/addMessage'); ?>" method="post" accept-charset="utf-8">
+            <input type="text" name="content" class="form-control message-input" placeholder="想留的內容">
+            <button type="submit" class="btn btn-info">送出</button>
+        </form>
         <hr />
-        <?php foreach ($messages as $messages_item) : ?>
-            <div>id: <?php echo $messages_item['id'] ?></div>
-            <div>content: <?php echo $messages_item['content'] ?></div>
-            <br/>
-        <?php endforeach ?>
+        <?php if (empty($messages)) : ?>
+            <div style="text-align: center;">沒有任何留言</div>
+        <?php else : ?>
+            <?php if (!empty($messages)) foreach (array_reverse($messages) as $item) : ?>
+                <div class="card message-card">
+                    <div class="card-body message-card-body">
+                        <span><?php echo $item['content'] ?></span>
+                        <span><?php echo $item['id'] ?></span>
+                    </div>
+                </div>
+            <?php endforeach ?>
+        <?php endif; ?>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

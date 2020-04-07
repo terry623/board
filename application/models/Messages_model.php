@@ -17,4 +17,9 @@ class Messages_model extends CI_Model
         $this->db->insert('messages', $all);
         redirect(base_url('Main'));
     }
+
+    public function remove($id){
+        $this->db->delete('messages', array('id' => $id)); 
+        redirect(base_url('Main'));
+    }
 }

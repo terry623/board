@@ -39,6 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         .message-card-body {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
@@ -58,12 +59,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="card message-card">
                     <div class="card-body message-card-body">
                         <span><?php echo $item['content'] ?></span>
-                        <span><?php echo $item['id'] ?></span>
+                        <img style="height: 100%; cursor:pointer;" src="<?= base_url('images/cancel.png'); ?>" onclick="deleteMsg(<?= $item['id'] ?>)">
                     </div>
                 </div>
             <?php endforeach ?>
         <?php endif; ?>
     </div>
+    <script>
+        function deleteMsg(id){
+            window.location="<?= base_url('Main/removeMessage'); ?>/" + id;
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

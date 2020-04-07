@@ -41,6 +41,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
             justify-content: space-between;
             align-items: center;
         }
+
+        .iconButton {
+            height: 100%;
+            cursor: pointer;
+            margin-left: 20px;
+        }
     </style>
 </head>
 
@@ -59,15 +65,50 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="card message-card">
                     <div class="card-body message-card-body">
                         <span><?php echo $item['content'] ?></span>
-                        <img style="height: 100%; cursor:pointer;" src="<?= base_url('images/cancel.png'); ?>" onclick="deleteMsg(<?= $item['id'] ?>)">
+                        <div>
+                            <img class="iconButton" src="<?= base_url('images/reply.png'); ?>" data-toggle="modal" data-target="#replyMsgModal" onclick="setCurrentModalId(<?= $item['id'] ?>)">
+                            <img class="iconButton" src="<?= base_url('images/cancel.png'); ?>" onclick="deleteMsg(<?= $item['id'] ?>)">
+                        </div>
                     </div>
                 </div>
             <?php endforeach ?>
         <?php endif; ?>
+
+        <div class="modal fade" id="replyMsgModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="border-bottom: 0px;">
+                        <h5 class="modal-title" id="replyModalLabel">回覆內容</h5>
+                    </div>
+                    <form id="replyForm" action="<?= base_url('Main/addReply'); ?>" method="post" accept-charset="utf-8" onsubmit="return replyMsg();">
+                        <div class="modal-body">
+                            <input id="curId" name="curId" style="opacity:0" />
+                            <textarea class="form-control" type="text" name="content" style="height: 200px;"></textarea>
+                        </div>
+                        <div class="modal-footer" style="border-top: 0px;">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                            <button type="submit" class="btn btn-info">送出</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
-        function deleteMsg(id){
-            window.location="<?= base_url('Main/removeMessage'); ?>/" + id;
+        let currentModalId = -1;
+
+        function setCurrentModalId(id) {
+            currentModalId = id;
+        }
+
+        function replyMsg() {
+            const curId = document.getElementById('curId');
+            curId.value = currentModalId;
+        }
+
+        function deleteMsg(id) {
+            window.location = "<?= base_url('Main/removeMessage'); ?>/" + id;
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

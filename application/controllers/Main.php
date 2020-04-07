@@ -23,6 +23,11 @@ class Main extends CI_Controller
         $this->messages_model->add($all);
 	}
 
+	public function addReply(){
+		$all = $this->input->post();
+		print_r($all);
+	}
+
 	public function removeMessage($id)
 	{
 		$this->messages_model->remove($id);

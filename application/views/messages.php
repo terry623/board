@@ -71,6 +71,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                     </div>
                 </div>
+                <?php foreach (array_reverse($replies) as $item2) : ?>
+                    <?php if ($item2['messageId'] == $item['id']) : ?>
+                        <div class="card card message-card" style="margin-left: 80px;">
+                            <div class="card-body">
+                                <span><?php echo $item2['content'] ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endforeach ?>
             <?php endforeach ?>
         <?php endif; ?>
 
@@ -82,10 +91,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                     <form id="replyForm" action="<?= base_url('Main/addReply'); ?>" method="post" accept-charset="utf-8" onsubmit="return replyMsg();">
                         <div class="modal-body">
-                            <input id="curId" name="curId" style="opacity:0" />
                             <textarea class="form-control" type="text" name="content" style="height: 200px;"></textarea>
                         </div>
                         <div class="modal-footer" style="border-top: 0px;">
+                            <input id="messageId" name="messageId" style="opacity:0" />
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
                             <button type="submit" class="btn btn-info">送出</button>
                         </div>
@@ -103,8 +112,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }
 
         function replyMsg() {
-            const curId = document.getElementById('curId');
-            curId.value = currentModalId;
+            const messageId = document.getElementById('messageId');
+            messageId.value = currentModalId;
         }
 
         function deleteMsg(id) {

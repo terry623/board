@@ -8,12 +8,14 @@ class Main extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('messages_model');
+		$this->load->model('replies_model');
 		$this->load->helper('url');
 	}
 
 	public function index()
 	{
 		$data['messages'] = $this->messages_model->get_all();
+		$data['replies'] = $this->replies_model->get_all();
 		$this->load->view('messages', $data);
 	}
 
@@ -25,7 +27,7 @@ class Main extends CI_Controller
 
 	public function addReply(){
 		$all = $this->input->post();
-		print_r($all);
+		$this->replies_model->add($all);
 	}
 
 	public function removeMessage($id)

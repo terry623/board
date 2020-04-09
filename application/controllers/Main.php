@@ -10,10 +10,14 @@ class Main extends CI_Controller
 		$this->load->model('messages_model');
 		$this->load->model('replies_model');
 		$this->load->helper('url');
+		$this->load->helper('cookie');
 	}
 
 	public function index()
 	{
+		if (empty($this->input->cookie("account"))) {
+			redirect(base_url('Login'));
+		}
 		$data['messages'] = $this->messages_model->get_all();
 		$data['replies'] = $this->replies_model->get_all();
 		$this->load->view('messages', $data);
@@ -22,11 +26,14 @@ class Main extends CI_Controller
 	public function addMessage()
 	{
 		$all = $this->input->post();
-        $this->messages_model->add($all);
+		$all['author'] = $this->input->cookie("account");
+		$this->messages_model->add($all);
 	}
 
-	public function addReply(){
+	public function addReply()
+	{
 		$all = $this->input->post();
+		$all['author'] = $this->input->cookie("account");
 		$this->replies_model->add($all);
 	}
 

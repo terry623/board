@@ -19,7 +19,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             background: gray;
             color: white;
             width: 100%;
-            padding: 12px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .message {
@@ -36,7 +38,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             margin: 20px 0;
         }
 
-        .message-card-body {
+        .card-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -52,7 +54,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <body>
     <div class="container">
-        <div class="title">留言板</div>
+        <div class="title">
+            <span>留言板</span>
+            <span>HI，<?= $_COOKIE['account'] ?> !</span>
+        </div>
         <form class="message" action="<?= base_url('Main/addMessage'); ?>" method="post" accept-charset="utf-8">
             <input type="text" name="content" class="form-control message-input" placeholder="想留的內容">
             <button type="submit" class="btn btn-info">送出</button>
@@ -63,9 +68,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <?php else : ?>
             <?php if (!empty($messages)) foreach (array_reverse($messages) as $item) : ?>
                 <div class="card message-card">
-                    <div class="card-body message-card-body">
+                    <div class="card-body">
                         <span><?php echo $item['content'] ?></span>
                         <div>
+                            <span>By <?= $item['author'] ?></span>
                             <img class="iconButton" src="<?= base_url('images/reply.png'); ?>" data-toggle="modal" data-target="#replyMsgModal" onclick="setCurrentModalId(<?= $item['id'] ?>)">
                             <img class="iconButton" src="<?= base_url('images/cancel.png'); ?>" onclick="deleteMsg(<?= $item['id'] ?>)">
                         </div>
@@ -73,9 +79,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <?php foreach (array_reverse($replies) as $item2) : ?>
                     <?php if ($item2['messageId'] == $item['id']) : ?>
-                        <div class="card card message-card" style="margin-left: 80px;">
+                        <div class="card message-card" style="margin-left: 80px;">
                             <div class="card-body">
                                 <span><?php echo $item2['content'] ?></span>
+                                <span>By <?= $item2['author'] ?></span>
                             </div>
                         </div>
                     <?php endif; ?>
